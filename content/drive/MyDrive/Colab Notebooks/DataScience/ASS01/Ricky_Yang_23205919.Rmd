@@ -1,0 +1,352 @@
+---
+title: "| COMP828 Assignment \n| Semester 1 2024\n"
+author: |
+  | Ricky Yang
+  | ID Number: 23205919
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_document:
+    df_print: paged
+  pdf_document:
+    number_sections: true
+documentclass: article
+classoption: a4paper
+fontsize: 11pt
+header-includes:
+- \renewcommand{\thesection}{Q\arabic{section}}
+- \renewcommand{\thesubsection}{\alph{subsection})}
+- \usepackage{fullpage}
+- \usepackage{fourier}
+---
+ 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE)
+
+# The following may be needed if your computer's language is not English
+#Sys.setlocale("LC_TIME", "English_New Zealand")
+```
+
+# Load \& extract the data
+
+```{r loadPackages, message=FALSE, results="hide", echo=FALSE, message=FALSE, warning=FALSE}
+requiredPackages <- c("knitr",  "tidyverse", "readr","ggrepel")
+packages_to_install <- requiredPackages[
+                        !(requiredPackages %in% installed.packages()[,1])]
+
+# Uncomment this line to install the packages
+if(length(packages_to_install)>0 ) install.packages(packages_to_install, 
+                                                    dependencies=TRUE)
+
+# Load
+sapply(requiredPackages, library, character.only=TRUE)
+ 
+```
+
+<!-- Hint: use the "Import Dataset" button in RStudio to check that syntax for importing the csv file. You'll need to change the filename below -->
+
+Download the csv file
+```{r loadData}
+library(tidyverse)
+sales_all <- read_csv("COMP828_sales_data.csv")
+
+
+sales <- sales_all %>% 
+   filter(sku_id==222087)  
+
+#clean data
+sales <- sales %>%
+  mutate(start_of_month = as.Date(start_of_month, format = "%m/%d/%Y"))  %>%
+  mutate(end_of_month = as.Date(end_of_month, format = "%m/%d/%Y"))  %>%
+  mutate(week = as.Date(week, format = "%m/%d/%Y")) 
+
+print(head(sales,5)) 
+ 
+ 
+
+```
+
+\newpage
+# Question 2. Explore the sales data
+
+
+## (a) Date range
+```{r}
+#What is the date range of the sales data? Provide R code and output required to determine this
+#and write your answer in a sentence
+ 
+
+sales_with_date <- sales %>% 
+  unite(dym,year,month,day,sep = '-') %>%
+  mutate(dym = as.Date(dym)) 
+
+ max_date <- format(max(sales_with_date$dym), "%Y-%m-%d")
+ min_date <- format(min(sales_with_date$dym), "%Y-%m-%d")
+
+```
+Date range of the sales data:  `r max_date` to `r min_date`
+
+
+## (b) Number of stores
+
+```{r}
+#How many different stores sell your product (sku_id)? Provide R code and output required to
+#determine this and write your answer in a sentence
+  
+num_stores <- unique(sales$store_id) %>% length()
+cat(num_stores," different stores sell my product")
+
+```
+`r num_stores` different stores sell my product
+
+## (c) Total price
+```{r}
+#compute some summary statistics and construct a histogram using the ggplot2 package to analyze
+#the variable total_price for your product.
+
+print(summary(sales$total_price))
+
+sales %>% ggplot(aes(x=total_price)) +
+  geom_histogram(binwidth = 10, fill = "green", color = "black") +
+  labs(title ="total price analyze",x = "total price",y = "frequency")
+
+```
+
+## (d) Discussion about total price
+```{r}
+#write 2-3 sentences describing your findings about the total_price variable frompart (c)
+
+print(summary(sales$total_price))
+
+```
+it is a wide price range, from a low of `r summary(sales$total_price)["Min."]` to a high of `r summary(sales$total_price)["Max."]`. The median price is `r summary(sales$total_price)["Median"]`,  half of the observations are below this value. The average price is slightly lower at `r summary(sales$total_price)["Mean"]`, so the distribution is slightly skewed to the left, where the mean is influenced by outliers with lower prices.
+
+\newpage
+# Question 3 Analysis of monthly sales data
+
+## (a) Compute monthly sales
+```{r}
+#Compute the total monthly sales. Here, sales means number of units sold (units_sold). for
+#your product from 1st January 2011–30th June 2013. Print a tibble showing the 6 months with
+#the highest total monthly sales. 
+
+ 
+start_time <- as.Date("2011-01-01")
+end_time <- as.Date("2013-06-30")
+ 
+monthly_sales <- sales %>% 
+  unite(date_ymd,year,month,day,sep = '-',remove = FALSE) %>%
+  mutate(date_ymd = as.Date(date_ymd)) %>% 
+  filter(date_ymd >= start_time & date_ymd <= end_time) %>% 
+  group_by(year_month = paste(year, month, sep = '-')) %>%   
+  summarise(total_sales = sum(units_sold))  %>%
+  arrange(-total_sales)  
+  
+  head(monthly_sales,6) 
+```
+
+## (b) Plot of monthly sales
+```{r}
+#Use ggplot2 to present total monthly sales for your product in an appropriate plot. Ensure your
+# graph has appropriate titles, labels, scales etc 
+ggplot(monthly_sales, aes(x = year_month, y = total_sales, group = 1)) +
+  geom_line(color = "skyblue") +
+  geom_point(color = "skyblue", size = 2) +  
+  labs(title = "Total Monthly Sales", 
+       x = "Year-Month", 
+       y = "Total Sales") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_discrete(labels = function(x) format(as.Date(paste(x, "01", sep = "-")), "%Y-%m"))  
+
+
+  
+ # Calculate average monthly sales for each month (1 to 12)
+monthly_avg_sales <- monthly_sales %>%
+  mutate(month = month(as.Date(paste0(year_month, "-01")))) %>%
+  group_by(month) %>%
+  summarise(avg_sales = mean(total_sales))
+ 
+
+ggplot(monthly_avg_sales, aes(x = month, y = avg_sales)) +
+  geom_line(color = "skyblue") +
+  geom_point(color = "skyblue", size = 3) +
+  labs(title = "Average Monthly Sales", 
+       x = "Month", 
+       y = "Average Sales") +
+  scale_x_continuous(breaks = 1:12) +  # Set breaks from 1 to 12
+  theme_minimal()
+ 
+```
+
+## (c) Discussion about monthly sales
+```{r}
+# Write 2–3 sentences describing the plot in part (b)
+  
+# Output the months with the highest total sales
+max_months <- monthly_sales %>% 
+  filter(total_sales == max(total_sales))  
+ 
+# Output the months with the lowest total sales
+min_months <- monthly_sales %>% 
+  filter(total_sales == min(total_sales))  
+ 
+
+# Maximum and minimum average sales months  
+max_avg_month <- monthly_avg_sales %>% 
+  filter(avg_sales == max(avg_sales))
+
+min_avg_month <- monthly_avg_sales %>% 
+  filter(avg_sales == min(avg_sales))
+ 
+ 
+cat("From", format(start_time, "%Y-%m-%d"), "to", format(end_time, "%Y-%m-%d"), ", the month with the highest sales volume was", max_months$year_month,
+      ", Total Sales:", max_months$total_sales, ", while the lowest was", min_months$year_month, 
+      ", Total Sales:", min_months$total_sales, ". Upon examining the average monthly sales,",
+      month.name[max_avg_month$month], "emerges as the month with the highest sales (", max_avg_month$avg_sales,
+      "), whereas", month.name[min_avg_month$month], "records the lowest sales (", min_avg_month$avg_sales,
+      "). Overall, there is considerable fluctuation in sales volume, indicating distinct periods of peak and off-peak sales activity.")
+
+ 
+```
+
+From `r start_time` to `r end_time`, the month with the highest sales volume was `r max_months$month` , Total Sales:`r max_months$total_sales`, while the lowest was `r min_months$month`,Total Sales:`r min_months$total_sales` . Upon examining the average monthly sales, `r max_avg_month$month`  emerges as the month with the highest sales（`r max_avg_month$avg_sales`）, whereas `r min_avg_month$month`   records the lowest sales（`r min_avg_month$avg_sales`）. Overall, there is considerable fluctuation in sales volume, indicating distinct periods of peak and off-peak sales activity.
+ 
+
+\newpage
+# Question 4  Analysis of store performance
+
+The GM Sales wants to know which stores are performing well, in terms of product sales. You should analyse the data for the product (sku_id) which has been assigned to you.
+
+## (a) Compute total sales per store
+```{r}
+#Use appropriate tidyverse functions to compute the total sales per store. Here, “sales” refers
+#to the number of units sold (units_sold). Print a tibble showing total sales by store, sorted
+#by total sales in decreasing order.
+
+total_sales_by_store <- sales %>% group_by(store_id) %>%
+  summarise(total_sales=sum(units_sold)) %>%
+  arrange(-total_sales)
+
+
+  print(total_sales_by_store)
+
+```
+
+## (b) Plot of total sales per store
+```{r}
+#Create an appropriate plot using ggplot2 to visualize the total sales per store from part (a). Hint:
+#you may need to use a function like as_factor to ensure the store id is visualized correctly. 
+  
+total_sales_by_store %>%
+ggplot(aes(x = factor(store_id, levels = store_id), y = total_sales, label = store_id)) +  
+  geom_point(color = "blue", size = 1) +  
+  geom_text_repel(max.overlaps = Inf) +  
+  labs(title = "Total Sales per Store",
+       x = "Store ID",
+       y = "Total Sales") +
+  theme_minimal()+ 
+  theme(axis.text.x = element_blank(),  # Remove x-axis text
+        axis.ticks.x = element_blank(),  # Remove x-axis ticks
+        )  
+  
+```
+
+## (c) Compute the GAGR of each store with increase or decrease
+```{r}
+#Compute another performance metric (different to total sales in part (a)) in order to investigate the
+#performance of stores. Any assumptions made about the meaning of the variables in the
+#dataset should be reasonable and clearly stated. Print a tibble showing the results. Note:
+#for full marks, students should show creativity in the choice and computation of the performance
+#metric. 
+   
+# Calculate total sales and total units sold for each store annually
+store_yearly_sales <- sales %>%
+  group_by(year, store_id) %>%
+  summarise(store_total_sales = sum(units_sold)) %>%
+  ungroup() %>%
+  group_by(year) %>%
+  mutate(total_sales = sum(store_total_sales)) %>%
+  mutate(store_sale_proportion = store_total_sales / total_sales)
+
+# Calculate the compound annual growth rate (CAGR) of sales for each store
+store_gagr <- store_yearly_sales %>%
+  group_by(store_id) %>%
+  summarise(gagr = 
+              (last(store_sale_proportion)/first(store_sale_proportion))^(1/(max(year) - min(year))) - 1) %>%
+  mutate(class = case_when(
+    gagr < 0 ~ "Decrease", 
+    TRUE ~ "Increase"
+  )) %>%
+  arrange(desc(gagr))  # Sort by gagr
+
+store_gagr 
+
+```
+
+## (d) Plot of the GAGR of each store with color indicating increase or decrease
+```{r}
+#Create an appropriate plot using ggplot2 to visualize the performance metric in part (c).
+
+ 
+# Plot 1 for the GAGR of each store with color indicating increase or decrease
+ggplot(store_gagr, aes(x = factor(store_id, levels = store_id), y = gagr, label = store_id, color = class)) +
+  geom_point(size = 1) +  # Set point size
+  geom_text_repel(max.overlaps = Inf) +  # Add labels with overlap avoidance
+  labs(title = "Annual Compound Growth Rate of Store Sales Proportion",
+       x = "Store ID",
+       y = "Compound Annual Growth Rate (CAGR)")+
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis text
+        axis.ticks.x = element_blank(),  # Remove x-axis ticks
+        )
+
+
+
+# Merge the dataframes
+merged_data <- merge(total_sales_by_store, store_gagr, by = "store_id")  
+ 
+
+# Plot 2 for Merge
+ggplot(merged_data) +
+  geom_bar(aes(x = factor(store_id), y = total_sales, fill = "Total Sales"), stat = "identity") +
+  geom_point(aes(x = factor(store_id), y = gagr * max(total_sales), color = class), size = 2) +
+  geom_text_repel(aes(x = factor(store_id), y = gagr * max(total_sales), label = store_id), size = 3, 
+                  direction = "both", box.padding = 0.5, point.padding = 0.5, max.overlaps = Inf) +  # Increase max.overlaps
+  scale_y_continuous(sec.axis = sec_axis(~./max(merged_data$total_sales), name = "CAGR")) +
+  facet_wrap(~ class, scales = "free", nrow = 2) +  # Arrange into 2 rows
+  labs(title = "Store Sales and Growth Analysis",
+       x = NULL,  # Removing x-axis label
+       y = "Total Sales",
+       color = "Growth Class") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank(),  # Remove x-axis text
+        axis.ticks.x = element_blank(),  # Remove x-axis ticks
+        axis.text.y = element_text(angle = 45, hjust = 1))  # Adjust y-axis text angle
+ 
+```
+
+## (e)Discussion of store performance
+```{r}
+#Write 1-2 paragraphs for the GMSales discussing your findings from parts (a–d) 
+```
+
+Due to variations in location and scale among stores, it is not accurate to simply compare sales volumes to assess store performance. Additionally, since the product sales experience fluctuations, relying solely on month-over-month sales growth of stores is not sufficient. Instead, we need to consider the growth of each store's sales proportion within the same market conditions. This means comparing each store's performance to its own historical data to evaluate the growth of its sales performance.
+
+With the utilization of Compound Annual Growth Rate (CAGR) (Gartner. n.d.) and total sales metrics, an insightful analysis reveals that certain stores exhibit commendable performance in terms of total sales, coupled with robust growth ratios, as exemplified by stores 9845 and 8222. Conversely, there are establishments demonstrating strong total sales figures yet experiencing negative growth trends, indicating areas for improvement, such as stores 8023 and 9823.  
+ 
+
+# Reference: 
+
+Gartner. (n.d.). Compound Annual Growth Rate (CAGR) [Online]. Available: https://www.gartner.com/en/information-technology/glossary/cagr-compound-annual-growth-rate.
+Accessed: April 30, 2024.
+ 
+\newpage
+
+\appendix
+# Appendix: R Environment
+```{r r_environ}
+format(Sys.time(), '%d %B %Y')
+sessionInfo()
+```

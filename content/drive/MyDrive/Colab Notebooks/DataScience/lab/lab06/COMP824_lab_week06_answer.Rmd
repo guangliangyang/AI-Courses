@@ -1,0 +1,232 @@
+---
+title: "My answers"
+author: "My name"
+date: "2023-04-06"
+output: html_document
+---
+
+
+```{r}
+# Write your answer here
+```
+
+
+Some of the exercises in this lab are based on those found in  [Wickham and Grolemund, R for Data Science](https://r4ds.had.co.nz/).
+
+
+
+# Getting started
+
+(@) In this lab we will need a number of packages. 
+
+- Install them, if required, by uncommenting the following code.
+```{r installPackages}
+# List of packages
+packages <- c("tidyverse", "readxl", "lubridate")
+
+# Find packages that are not installed
+packages_to_install <- packages[!(packages %in% installed.packages()[,"Package"])]
+
+# Install required packages
+# if(length(packages_to_install) > 0){
+#   install.packages(packages_to_install,
+#                    dependencies=TRUE))
+# }
+```
+- Load the packages
+```{r loadPackages, results = "hide"}
+# Load new packages
+sapply(packages, library, character.only=TRUE)
+```
+
+
+```{block, box.title = "Tip", box.body = list(fill = "lightblue")}
+You can get help in R by typing "?" followed by the function name. For example ?ggplot
+```
+
+
+# Projects
+
+(@) Start a new R project called "COMP824", create within a new directory on your H drive or One Drive (uni computers) or within your user directory (on your own computer)
+
+(@) Check the working directory using `getwd()`
+
+(@) Create two new directories within your project called "labs" and "data".
+
+
+(@) Download "COMP824_lab_week06_answer.Rmd" from Canvas and save in the labs directory.
+
+(@) Knit the file. You will write your answers to the following questions in that file.
+
+(@) Project Directory
+
+If your project has subfolders, e.g. one for scripts, one for data etc, 
+then you need to change the working directory to the project directory when knitting.
+By default, the working directory when knitting is the location of the RMD file.
+If your project has a subfolders and your RMD is within one of those folders, then
+this will take it back up to the project directory. 
+
+More info: <https://bookdown.org/yihui/rmarkdown-cookbook/working-directory.html>
+
+The following code chunk will set the directory to the one above where your Rmd file is saved.
+
+
+
+ 
+
+# Application - Weather Data
+
+
+(@)  Download the file `auckland_weather.csv` from Canvas and save in the "data" folder within your COMP824 project directory.  Open the file and note some of the issues that you might face when importing into R.
+
+(@) Import the file `auckland_weather.csv` into R using `read_csv()`.  Check that the date column has been imported as `dttm`. 
+
+
+
+```{r}
+# Write your answer here
+```
+
+
+
+(@) Use the R function `dplyr::arrange` to sort the weather data in order of wind speed (in descending order).
+Which day and time was the windiest?  
+```{r}
+# Write your answer here
+```
+
+
+(@) Use the R function `dplyr::filter` to print the records which had a wind speed of between  of over 28 and 30 knots. Your result should have 9 rows.
+
+Hint: Use the function `between()`.
+
+```{r}
+# Write your answer here
+```
+
+
+(@) What is the median wind speed? What percentage of records have a wind speed equal to the median? What percentage of records have a wind speed of this value or less?
+
+```{r}
+# Write your answer here
+```
+
+
+
+(@) Use `ggplot()` to create a histogram of wind speed in Auckland Choose a `binwidth` of 5mm. 
+
+```{r}
+# Write your answer here
+```
+
+
+(@) Create a dataset `daily_weather` containing the daily high and low temperatures.
+
+```{r}
+# Write your answer here
+```
+
+
+(@) Create a line graph with two lines, showing the high and low temperatures. Adjust the labels. Save your plot as the object `p`.
+
+```{r}
+# Write your answer here
+```
+
+
+(@) Customise the appearance of the dates in your previous plot using `scale_x_date`.
+
+-  What does the following code do?
+
+
+
+-  Modify the code to show the date for the start of each week. 
+
+```{r}
+# Write your answer here
+```
+
+
+-  Change the appearance of the date to show yyyy-mm-dd for each week, and change the direction of the text to be vertical.
+```{r}
+# Write your answer here
+```
+
+
+
+# Forbes Richest Athletes
+
+
+(@)  Download the dataset `Forbes_richest_athletes.csv` from Canvas and import into R.
+
+
+```{r}
+# Write your answer here
+```
+
+
+```{r}
+# Write your answer here
+```
+
+(@) Data cleaning
+
+
+-  Use the command `mutate` to create a new variable containing the `Sport` in lower case.
+
+```{r}
+# Write your answer here
+```
+
+
+-   Use the command `rename` to rename the earnings variable to `earnings`.
+
+```{r}
+# Write your answer here
+```
+
+
+(@) Use R to investigate the following:
+
+-   How many athletes are included each year?
+
+```{r}
+# Write your answer here
+```
+
+
+-   Which soccer player earns the most?
+
+```{r}
+# Write your answer here
+```
+
+
+-  Which athlete has appeared the most times in this dataset?
+
+Hint: use the function `count`
+
+```{r}
+# Write your answer here
+```
+
+
+
+-  Which sport has the richest athletes?
+
+Hint: think about how you will define "richest athletes". There are multiple answers.
+```{r}
+# Write your answer here
+```
+
+
+
+(@) Write your own question of interest about the richest athletes and use the dataset to investigate it.
+
+
+
+# Further activities
+
+(@)  Review the examples in the lecture notes
+(@)  Read R4DS chapters for this week and do the exercises.
+

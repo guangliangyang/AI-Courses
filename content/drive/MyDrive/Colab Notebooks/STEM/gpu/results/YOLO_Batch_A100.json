@@ -1,0 +1,11 @@
+{
+    "Version": "YOLO_Batch",
+    "GPU": "A100",
+    "Mean Error": 0.0,
+    "Max Error": 0.0,
+    "Inference Time (s)": 4.391183853149414,
+    "Throughput (frames/s)": 31.654333921889286,
+    "Initial Memory Usage (MB)": 43.5498046875,
+    "Final Memory Usage (MB)": 55.099609375,
+    "Peak Memory Usage (MB)": 92.46630859375
+}

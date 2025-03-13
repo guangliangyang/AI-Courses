@@ -1,0 +1,98 @@
+---
+title: "| COMP828 Assignment \n| Semester 1 2024\n"
+author: |
+  | STUDENT NAME
+  | ID Number: 1234567
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  pdf_document:
+    number_sections: yes
+documentclass: article
+classoption: a4paper
+fontsize: 11pt
+header-includes:
+- \renewcommand{\thesection}{Q\arabic{section}}
+- \renewcommand{\thesubsection}{\alph{subsection})}
+- \usepackage{fullpage}
+- \usepackage{fourier}
+---
+ 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE)
+
+# The following may be needed if your computer's language is not English
+#Sys.setlocale("LC_TIME", "English_New Zealand")
+```
+
+# Load \& extract the data
+
+```{r loadPackages, message=FALSE, results="hide", echo=FALSE, message=FALSE, warning=FALSE}
+requiredPackages <- c("knitr",  "tidyverse", "readr")
+packages_to_install <- requiredPackages[
+                        !(requiredPackages %in% installed.packages()[,1])]
+
+# Uncomment this line to install the packages
+#if(length(packages_to_install)>0 ) install.packages(packages_to_install, 
+#                                                    dependencies=TRUE)
+
+# Load
+sapply(requiredPackages, library, character.only=TRUE)
+ 
+```
+
+<!-- Hint: use the "Import Dataset" button in RStudio to check that syntax for importing the csv file. You'll need to change the filename below -->
+
+Download the csv file
+```{r loadData}
+library(tidyverse)
+sales_all <- read_csv("COMP828_sales_data.csv")
+```
+
+\newpage
+# Explore the sales data
+
+## Date range
+
+## Number of stores
+
+## Total price
+
+## Discussion about total price
+
+
+\newpage
+# Analysis of monthly sales data
+
+## Compute monthly sales
+
+## Plot of monthly sales
+
+## Discussion about monthly sales
+
+
+\newpage
+# Analysis of store performance
+
+## Compute total sales per store
+
+## Plot of total sales per store
+
+## Additional performance metric (rename this section)
+
+## Plot of additional performance metric (rename this section)
+
+## Discussion of store performance
+
+
+
+
+\newpage
+
+\appendix
+# Appendix: R Environment
+```{r r_environ}
+format(Sys.time(), '%d %B %Y')
+sessionInfo()
+```

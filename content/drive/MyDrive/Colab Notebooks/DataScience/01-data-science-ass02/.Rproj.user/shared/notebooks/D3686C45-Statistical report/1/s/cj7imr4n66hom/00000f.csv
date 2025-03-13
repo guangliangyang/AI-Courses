@@ -1,0 +1,5 @@
+"0","# select the necessary variables"
+"0","tb.selected<-tb %>% "
+"0","  select(price,accommodates,bathrooms,bedrooms,room_type,"
+"0","                host_response_rate,review_scores_rating,neighbourhood_cleansed"
+"0","           ,host_since_year  ,  number_of_reviews) "

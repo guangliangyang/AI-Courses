@@ -1,0 +1,3 @@
+"0","# remove the observations having missing values"
+"0","tb.clean<-tb.selected %>% na.omit()"
+"0"," "

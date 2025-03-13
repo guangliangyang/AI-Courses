@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<style>body{background-color:white;}</style>
+<script src="lib/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="lib/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="lib/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="lib/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="lib/kePrint-0.0.1/kePrint.js"></script>
+<link href="lib/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+</head>
+<body>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>List of Variables in the Airbnb Dataset</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;font-weight: bold;"> Variable </th>
+   <th style="text-align:left;font-weight: bold;"> DataType </th>
+   <th style="text-align:left;font-weight: bold;"> Description </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> host_id </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Unique identifier for the host </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> host_name </td>
+   <td style="text-align:left;width: 2cm; "> character </td>
+   <td style="text-align:left;"> Name of the host </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> host_since_year </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Year when the host started </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> host_since_anniversary </td>
+   <td style="text-align:left;width: 2cm; "> date </td>
+   <td style="text-align:left;"> Anniversary date of the host's start </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> Customer Since </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Duration since the customer has been with Airbnb </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> Age in years </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Age of the listing in years </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> id </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Unique identifier for the listing </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> neighbourhood_cleansed </td>
+   <td style="text-align:left;width: 2cm; "> character </td>
+   <td style="text-align:left;"> Specific neighborhood of the listing </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> city </td>
+   <td style="text-align:left;width: 2cm; "> character </td>
+   <td style="text-align:left;"> City where the listing is located </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> city_translated </td>
+   <td style="text-align:left;width: 2cm; "> character </td>
+   <td style="text-align:left;"> Translated city name </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> state </td>
+   <td style="text-align:left;width: 2cm; "> character </td>
+   <td style="text-align:left;"> State where the listing is located </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> state_translated </td>
+   <td style="text-align:left;width: 2cm; "> character </td>
+   <td style="text-align:left;"> Translated state name </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> zipcode </td>
+   <td style="text-align:left;width: 2cm; "> character </td>
+   <td style="text-align:left;"> Zip code of the listing location </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> country </td>
+   <td style="text-align:left;width: 2cm; "> character </td>
+   <td style="text-align:left;"> Country of the listing </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> latitude </td>
+   <td style="text-align:left;width: 2cm; "> numeric </td>
+   <td style="text-align:left;"> Latitude coordinate of the listing </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> longitude </td>
+   <td style="text-align:left;width: 2cm; "> numeric </td>
+   <td style="text-align:left;"> Longitude coordinate of the listing </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> property_type </td>
+   <td style="text-align:left;width: 2cm; "> character </td>
+   <td style="text-align:left;"> Type of property (e.g., apartment, house) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> room_type </td>
+   <td style="text-align:left;width: 2cm; "> character </td>
+   <td style="text-align:left;"> Type of room (e.g., entire home/apt, private room) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> accommodates </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Number of guests the listing accommodates </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> bathrooms </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Number of bathrooms </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> bedrooms </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Number of bedrooms </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> beds </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Number of beds </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> bed_type </td>
+   <td style="text-align:left;width: 2cm; "> character </td>
+   <td style="text-align:left;"> Type of bed (e.g., real bed, futon) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> price </td>
+   <td style="text-align:left;width: 2cm; "> numeric </td>
+   <td style="text-align:left;"> Price per night </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> guests_included </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Number of guests included in the price </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> extra_people </td>
+   <td style="text-align:left;width: 2cm; "> numeric </td>
+   <td style="text-align:left;"> Cost for additional guests </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> minimum_nights </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Minimum number of nights required to book </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> customers @ 50% review rate </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Number of customers at a 50% review rate </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> Daily Rev per 2 guests, unless limited to 1 </td>
+   <td style="text-align:left;width: 2cm; "> numeric </td>
+   <td style="text-align:left;"> Daily revenue per 2 guests </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> Min Nights </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Minimum nights required </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> Total Rev </td>
+   <td style="text-align:left;width: 2cm; "> numeric </td>
+   <td style="text-align:left;"> Total revenue generated </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> host_response_time </td>
+   <td style="text-align:left;width: 2cm; "> character </td>
+   <td style="text-align:left;"> Time taken by the host to respond </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> host_response_rate </td>
+   <td style="text-align:left;width: 2cm; "> numeric </td>
+   <td style="text-align:left;"> Response rate of the host </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> number_of_reviews </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Total number of reviews received </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> review_scores_rating </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Overall rating score from reviews </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> review_scores_accuracy </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Accuracy rating score from reviews </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> review_scores _cleanliness </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Cleanliness rating score from reviews </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> review_scores_checkin </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Check-in rating score from reviews </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> review_scores _communication </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Communication rating score from reviews </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> review_scores_location </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Location rating score from reviews </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 4cm; "> review_scores_value </td>
+   <td style="text-align:left;width: 2cm; "> integer </td>
+   <td style="text-align:left;"> Value rating score from reviews </td>
+  </tr>
+</tbody>
+</table> <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"]]}})</script><script async src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

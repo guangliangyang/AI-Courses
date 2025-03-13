@@ -1,0 +1,35 @@
+aws:
+  accesskey: AKIAVRUVTUGNK3N63INV
+  secretkey: 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  
+  dynamodb:
+    endpoint: dynamodb.us-east-1.amazonaws.com
+  region: us-east-1
+  s3: 
+    bucket: iteatime
+  
+server:
+  port: 5000
+  
+  
+spring:
+  application:
+    name: booking-system
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+  #security:
+  #  user:
+  #    password: 111111
+  #autoconfigure:
+  #  exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+      #,org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
+ 
+  
+      
+security:
+  jwt:
+    secret-key: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+    expiration-time: 86400000
+ 
+
+

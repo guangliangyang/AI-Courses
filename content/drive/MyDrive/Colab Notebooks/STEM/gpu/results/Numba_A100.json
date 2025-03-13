@@ -1,0 +1,11 @@
+{
+    "Version": "Numba",
+    "GPU": "A100",
+    "Mean Error": 1.8598011640542734e-06,
+    "Max Error": 2.827713761098892e-05,
+    "Inference Time (s)": 5.2049524784088135,
+    "Throughput (frames/s)": 26.705335077812887,
+    "Initial Memory Usage (MB)": 43.5498046875,
+    "Final Memory Usage (MB)": 43.5498046875,
+    "Peak Memory Usage (MB)": 80.7236328125
+}

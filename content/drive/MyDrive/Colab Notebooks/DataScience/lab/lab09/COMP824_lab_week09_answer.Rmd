@@ -1,0 +1,188 @@
+---
+title: "My answers"
+author: "My name"
+date: "2023-05-03"
+output: html_document
+---
+
+
+```{r}
+# Write your answer here
+```
+
+Some of the exercises in this lab are based on those found in  [Wickham and Grolemund, R for Data Science](https://r4ds.had.co.nz/).
+
+
+## Getting started
+
+(@) In this lab we will need a number of packages. 
+
+- Install them, if required, by uncommenting the following code.
+```{r installPackages}
+# List of packages
+packages <- c("tidyverse", "nycflights13")
+
+# Find packages that are not installed
+packages_to_install <- packages[!(packages %in% installed.packages()[,"Package"])]
+
+# Install required packages
+# if(length(packages_to_install) > 0){ install.packages(packages_to_install,                    dependencies=TRUE)) }
+```
+- Load the packages
+```{r loadPackages, results = "hide"}
+# Load new packages
+sapply(packages, library, character.only=TRUE)
+```
+
+
+```{block, box.title = "Tip", box.body = list(fill = "lightblue")}
+You can get help in R by typing "?" followed by the function name. For example ?ggplot
+```
+
+
+## Joins
+
+(@) Consider the following data sets about student grades.
+
+  - Run the following code and inspect the outputs.
+```{r inspect_tibbles, results="hide"}
+
+COMP824exams <- tribble(
+  ~studID, ~exam_mark,
+     1, "A",
+     2, "B",
+     3, "C+"
+)
+COMP824classlist <- tribble(
+  ~studentID, ~name, ~programme,
+     1, "Charlotte", "CIS",
+     2, "Zoe", "CIS",
+     3, "Caitlin", "MA",
+     4, "Abel", "MSc"
+)
+
+STAT800classlist <- tribble(
+  ~studentID, ~name,
+     1, "Charlotte",
+     2, "Zoe",
+     6, "Conor",
+     7, "Archie"
+)
+
+```
+
+Use the appropriate \verb|join| function to create a dataset that can answers the following questions.
+
+- Create a dataset containing the name, ID and exam mark of all COMP824 students. Include students who didn't sit the exam.
+
+```{r}
+# Write your answer here
+```
+
+
+
+- Create a dataset containing the name, ID and exam mark of the COMP824 students who sat the exam.  
+
+```{r}
+# Write your answer here
+```
+
+
+- Create a dataset containing 
+the name, ID and programme of the COMP824 students who sat the exam.
+
+```{r}
+# Write your answer here
+```
+
+
+
+- Which students didn't sit the COMP824 exam?
+
+
+```{r}
+# Write your answer here
+```
+
+
+- Create a dataset containing the name and ID of all students studying either COMP824 **or** STAT800 or both.
+Ensure your new dataset has only 2 columns: one for ID and one for name.
+
+```{r}
+# Write your answer here
+```
+
+
+
+- Create a dataset containing the name and ID of all students studying both COMP824 **and** STAT800.
+Ensure your new dataset has only 2 columns: one for ID and one for name.
+
+```{r}
+# Write your answer here
+```
+
+
+## Flights
+(@)  Load the package `nycflights13`. Use the appropriate \verb|join| function to create a dataset that can answer the following questions.
+You will need to you some other functions well (e.g. \verb|filter|).
+
+- Create a table showing the names of the destinations that JetBlue Airways flies to.  Include a column showing the number of flights to each destination.
+
+Start from this code:
+```{r jetblue_starter}
+selected_airlines <- airlines %>% filter(name %in% c("JetBlue Airways"))
+```
+
+ 
+```{r}
+# Write your answer here
+```
+
+ 
+- What destinations do both JetBlue Airways and United Air Lines Inc (UA) fly to?
+ 
+```{r}
+# Write your answer here
+```
+
+
+(@) Use ggplot to construct a bar plot showing the number of flights per month. Add a title and subtitle to your plot.
+```{r}
+# Write your answer here
+```
+
+ 
+ (@)  Join flights and airports plot flight paths of 10 flights using longitude and latitude.
+ 
+```{r}
+# Write your answer here
+```
+
+ 
+ 
+ (@) Challenge:  Create a plot showing a line between the 20 most common origin/destination pairs. Use line thickness to represent the frequency with which flights fly between the two locations, and colour to represent the origin.
+ 
+```{r}
+# Write your answer here
+```
+
+
+
+```{r}
+# Write your answer here
+```
+
+
+
+```{r}
+# Write your answer here
+```
+
+ 
+ 
+ 
+## Further practice
+
+(@)  Review the examples in the lecture notes
+(@)  Read R4DS chapters 13 and do the exercises.
+

@@ -1,0 +1,11 @@
+{
+    "Version": "cuBLAS_Optimized",
+    "GPU": "A100",
+    "Mean Error": NaN,
+    "Max Error": NaN,
+    "Inference Time (s)": 2.076118230819702,
+    "Throughput (frames/s)": 66.95187101416639,
+    "Initial Memory Usage (MB)": 55.099609375,
+    "Final Memory Usage (MB)": 55.099609375,
+    "Peak Memory Usage (MB)": 92.59912109375
+}

@@ -1,0 +1,11 @@
+{
+    "Version": "Base",
+    "GPU": "A100",
+    "Mean Error": 0.0,
+    "Max Error": 0.0,
+    "Inference Time (s)": 2.476397752761841,
+    "Throughput (frames/s)": 56.12991687017084,
+    "Initial Memory Usage (MB)": 43.5498046875,
+    "Final Memory Usage (MB)": 55.099609375,
+    "Peak Memory Usage (MB)": 97.74072265625
+}

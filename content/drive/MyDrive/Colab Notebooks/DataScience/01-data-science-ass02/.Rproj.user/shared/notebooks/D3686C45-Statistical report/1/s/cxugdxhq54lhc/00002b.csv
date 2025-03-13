@@ -1,0 +1,5 @@
+"0",""
+"0","# Generate box plot"
+"0","boxplot(review_scores_rating ~ price_group"
+"0","        , caption = ""review scores rating  mean and standard deviation for different price """
+"0","        , data = tb.analysis1, xlab = ""Price Group"", ylab = ""Review Scores Rating"")"

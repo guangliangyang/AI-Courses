@@ -1,0 +1,6 @@
+"0","# import dataset and filter out apartment"
+"0","tb<-read.csv(""AirBnb.csv"") %>%   filter(property_type==""Apartment"")"
+"0",""
+"0","# Display total number of rows"
+"0","total_rows <- nrow(tb) "
+"0",""

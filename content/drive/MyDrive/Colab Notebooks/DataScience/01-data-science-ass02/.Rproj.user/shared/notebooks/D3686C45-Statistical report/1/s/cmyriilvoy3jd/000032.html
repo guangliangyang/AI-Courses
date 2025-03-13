@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<style>body{background-color:white;}</style>
+<script src="lib/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="lib/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="lib/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="lib/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="lib/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="lib/kePrint-0.0.1/kePrint.js"></script>
+<link href="lib/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+</head>
+<body>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>Columns after Tidying the variable names</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Column Names </th>
+   <th style="text-align:left;"> Column Types </th>
+   <th style="text-align:right;"> NA Count </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> host_id </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> host_name </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> host_since_year </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> host_since_anniversary </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> customersince </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ageinyears </td>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> id </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> neighbourhood_cleansed </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> city </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> city_translated </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> state </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> state_translated </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> zipcode </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> country </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> latitude </td>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> longitude </td>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> property_type </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> room_type </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> accommodates </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> bathrooms </td>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:right;"> 41 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> bedrooms </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 13 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> beds </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> bed_type </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> price </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> guests_included </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> extra_people </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> minimum_nights </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> customers50reviewrate </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> xdailyrevper2guestsunlesslimitedto1 </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> minnights </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> totalrev </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> host_response_time </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> host_response_rate </td>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> number_of_reviews </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> review_scores_rating </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 1297 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> review_scores_accuracy </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 1303 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> review_scores_cleanliness </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 1303 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> review_scores_checkin </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 1303 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> review_scores_communication </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 1304 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> review_scores_location </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 1304 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> review_scores_value </td>
+   <td style="text-align:left;"> integer </td>
+   <td style="text-align:right;"> 1305 </td>
+  </tr>
+</tbody>
+</table> <script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"]]}})</script><script async src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+"0",""
+"0","# Perform ANOVA"
+"0","anova_result <- aov(review_scores_rating ~ price_group, data = tb.analysis1)"
+"0","#print(summary(anova_result))"
+"0",""

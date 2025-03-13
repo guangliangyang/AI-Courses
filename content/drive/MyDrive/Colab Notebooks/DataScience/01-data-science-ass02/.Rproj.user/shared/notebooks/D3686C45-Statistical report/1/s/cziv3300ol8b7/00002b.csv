@@ -1,0 +1,4 @@
+"0","   "
+"0","kable(data2, align=""lcrlll"", #normally use r alignment for numbers"
+"0","      digits=3,"
+"0","      caption = ""T-test Summary “below_avg” Vs. “above_avg” "")"

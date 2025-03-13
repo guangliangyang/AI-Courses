@@ -1,0 +1,195 @@
+---
+title:  |
+    | Statistical Programming
+    | for Data Science:   
+    | An investigation on the Airbnb price per night in Amsterdam 
+author: |
+    | XXX
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  pdf_document:
+    # keep_tex: yes
+    number_sections: yes
+    citation_package: natbib
+    # toc: yes
+# header-includes: \usepackage{subfig}
+papersize: a4
+fontsize: 11pt
+---
+
+\newpage
+\tableofcontents
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls())
+#Install packages
+required_packages <- c("dplyr", "knitr","readr")
+sapply(required_packages, library, character.only=TRUE)
+
+library(broom)
+```
+
+\newpage
+# Dataset
+
+## Introduction
+As a sharing economy product, Airbnb experiences a rapid development in recent decades. It is an alternative hotel business that shares the accommodation with others, short period or long period. There are lots of research on the price per night that Airbnb costs.In \cite{chen2017consumer}, a wide array of utility-bearing attributes of Airbnb listings and the effects of these attributes on consumers’ valuation in United States are measured. It provides a comprehensive study on the pricing of Airbnb listed properties and the results explain how the factors, i.e., listing functionality, attributes of hosts, customers reviews and market conditions affect the price. Another research in \cite{cai2019price} focuses on the market of Hong Kong. Five groups’ variables were collected, i.e., listing attributes, host attributes, rental policies, listing reputation, and listing location to investigate the determinant of Airbnb price. Some use ordinary least square regression with geographically-weighted. which is introduced in \cite{voltes2020drivers}, to study the factors that affect the price for different room types, i.e., entire room or private room. 
+
+In this project, we are going to build a suitable model that can explain the relationship between rental price per night of apartment in Netherlands, mainly in city Amsterdam, posted in Airbnb and several characteristics related to the apartment. Specially, to find the determinants of the price from the room features, e.g., number of bathrooms, bedrooms; host response rate, and the ratings received from the customers.
+
+
+
+## Description of dataset
+The dataset to be analyzed is collected from https://data.world/cannata/gaairbnb and is named "AirBNB.csv". In the raw dataset, there are 7833 observations on 41 variables. The selected variables to be analyzed are price,accommodates,bathrooms,bedrooms,room_type,host_response_rate, review_scores_rating. The description and type of each variable are listed as follows. 
+- price: continuous variable, the price per night posted on website.  
+- accommodates: discrete variable, the number of guests that the property can accept.  
+- bathrooms: continuous variable, the number of bathrooms the property has.  
+- bedrooms: discrete variable, the number of bedrooms the property has.  
+- room_type: nominal variable, the feature of the shared property, and there are three types, "Entire home/apt", "Private room" and "Shared room".
+- host_response_rate: continuous variable, indicating the response frequency of the host when receiving message.  
+- review_scores_rating: discrete variable, indicating the reputation of the shared property.  
+
+The screenshot of dataset is displayed in Figure 1.  
+As for the data cleaning, we propose to filter out the observations related to property type "apartment" first, then select the necessary variables. At last removing the observations with missing values and changing the format or type of the variables. 
+
+```{r pressure2, echo=FALSE, fig.cap="Screenshot of the dataset", out.width = '100%', fig.align='center'}
+knitr::include_graphics("data screenshot.png")
+```
+
+
+\newpage
+
+## Three proposed research questions
+
+### Q1 
+The first proposed question: “Are the average prices per night the same for different room type?”
+
+### Q2
+The second proposed question: "Is the price per night related to acommodates and how is the effect?
+
+### Q3
+The third proposed question: "What are the other varibales having impact on the price per night of the apartment? 
+
+\newpage
+# Data Import and Cleaning
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# import dataset and filter out apartment
+tb<-read.csv("AirBnb.csv") %>% 
+  filter(property_type=="Apartment")
+
+# select the necessary variables
+tb.selected<-tb %>% 
+  dplyr::select(price,accommodates,bathrooms,bedrooms,room_type,
+                host_response_rate,review_scores_rating)
+
+# change the type of some variables 
+tb.selected$price<-parse_number(tb.selected$price)
+tb.selected$host_response_rate<-as.numeric(tb.selected$host_response_rate)
+
+# remove the observations having missing values
+tb.clean<-tb.selected %>% na.omit()
+```
+
+
+
+
+
+\newpage
+# Data Analysis/Report
+
+## Q1
+
+The objective is to analyze whether the Airbnb posted price per night of apartment are different among different room types. Since the room type is a categorical variable, an one-way ANOVA approach is suitable. Before conducting any statistical analysis, a descriptive summary for the price is tabulated in Table 1. It is found that the average price (128.63) for the Entire home or entire apartment is much higher than that for private room (68.76) and shred room (55.96). Meanwhile the variability of the price for entire home is also the highest. The boxplot displayed in Figure 2 gives a direct comparison of the distribution of price for each room type.  
+The ANOVA analysis yields the p-value is below 0.05. And it is concluded that the average price are significantly differnet among different room types. 
+
+```{r echo=FALSE}
+# descriptive summary of price for each room type
+price.avg<-tb.clean %>% group_by(room_type) %>% 
+  summarise(average=mean(price),
+            SD=sd(price))
+```
+
+```{r kable_summaryPrice, echo=FALSE}
+#Different alignment options, number of digits,  and a caption
+kable(price.avg, align="lcrlll", #normally use r alignment for numbers
+      digits=2,
+      caption = "Summary statistics for price per night for different room types")
+```
+
+
+```{r boxplot, echo=FALSE,fig.cap="Boxplot for price per night "}
+boxplot(price~room_type,data=tb.clean,xlab="room type",ylab="price per night")
+```
+
+```{r echo=FALSE}
+model.aov<-aov(price~room_type,data=tb.clean)
+aov.smy<-summary(model.aov)
+```
+
+
+\newpage
+## Q2
+The object is to find the relationship between price per night and the number of guests that the shared property can hold. Figure 3 displays the scatter plot between the two variables. It is noted that there is a increasing trend for the price when accommodates value increases. And it seems the relationship is linear. Simple linear regression is a model that describes the relationship between one dependent and one independent variable using a straight line. Through the fitted model, the estimated coefficient on each variable indicates the association between response variable price and the predictor. The regression model is
+$$price=\beta_0+\beta_1*accommodates+\epsilon \ \ \ \ \ \ (model \ 1)$$
+
+```{r scatterplot, echo=FALSE,fig.cap="Scatter plot between price and accommodates"}
+
+plot(price~accommodates, data=tb.clean,ylab="price per night")
+
+```
+
+```{r model_summary, echo=FALSE}
+fit1<-lm(price~accommodates,data=tb.clean)
+
+out1<- tidy(fit1) %>%  mutate_if(is.numeric, round, 3)
+
+kable(out1,caption = "Regression summary for model 1")
+
+```
+
+Table 2 lists the regression summary. It is found that the accommodates has significant effect on the performance of price. The coefficient of determination is around `r round(summary(fit1)$r.squared,2)`, that about 31% variation of the price can be explained by variable accommodates. 
+
+
+\newpage
+## Q3
+
+The object is to add more independent variables to the simple model, and to find besides accommodates, what are the other determinants of the price. Table 3 presents the regression summary. We can notice that except the variable host response rate, all the other estimated coefficients are statistically significant at 5% level. In general, accommodates, bathrooms, bedrooms and review scores rating have positive effect on the prices. As for the categorical variable room type, there are three levels. In the model, entire room serves as the baseline level, therefore, the negative coefficients on private room and shared room means holding other variables constant, the entire rooms cost the highest price per night.  
+For the assumptions assessment for the linear regression, Figure 4 displays the residuals diagnostics. The left panel shows there is no obvious pattern of the points. But the right panel, the QQ plot tells majority of the points are align with the diagonal line but some deviations on both tails. Considering the large sample size, the normality assumption is considered moderately hold.  
+
+```{r echo=FALSE}
+fit2<-lm(price~.,data=tb.clean)
+
+out2<-tidy(fit2) %>%  mutate_if(is.numeric, round, 3)
+
+kable(out2,caption = "Regression summary for model 2")
+```
+
+```{r residualplot, echo=FALSE,fig.cap="Residuals plots for model 2"}
+par(mfrow=c(1,2))
+# residual plot
+e_hat2<-resid(fit2)
+plot(x=fitted(fit2),y=e_hat2,main="Residual vs Fitted",ylab="Residuals",xlab="Fitted")
+# normal QQ plot
+qqnorm(e_hat2)
+qqline(e_hat2)
+```
+
+
+\newpage
+
+\bibstyle{plain}
+\bibliography{reference_list}
+
+
+\newpage
+# Appendix: Individual Assignment Coversheet
+
+```{r imagepage, echo=FALSE, out.width = '90%'}
+knitr::include_graphics("DCT-Individual-Assessment-Cover-Sheet.pdf")
+```
+
+\newpage
+# Appendix: R Environment
+```{r r_environ}
+sessionInfo()
+```

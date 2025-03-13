@@ -1,0 +1,330 @@
+---
+title: "My answers"
+author: "My name"
+date: "2023-03-27"
+output: html_document
+---
+
+
+```{r}
+# Write your answer here
+```
+
+
+Some of the exercises in this lab are based on those found in  [Wickham and Grolemund, R for Data Science](https://r4ds.had.co.nz/).
+
+
+
+# Getting started
+(@) Install the `tidyverse` package (only required if this is the first time you are using tidyverse on this computer). 
+
+Uncomment this following line (i.e. remove the `#`) and change the chunk option to `eval=FALSE`. Knit your file and see what happens.
+
+```{r install_tidy, eval=FALSE}
+#eval = FALSE , code will not be run
+install.packages("tidyverse")
+```
+
+(@) Load the `tidyverse` package
+```{r load_tidy, message = FALSE}
+# if show the message
+library(tidyverse)
+```
+
+
+```{block, box.title = "Tip", box.body = list(fill = "lightblue")}
+#You can get help in R by typing "?" followed by the function name. For example ?ggplot
+
+?ggplot
+```
+
+# R Markdown 
+
+
+(@) You can change what gets displayed when you compile your Rmd file by changing the chunk options.
+
+Some examples are shown below. Look at the code in the Rmd file and output in the PDF file and figure out what each one does.
+
+* `echo = FALSE`
+
+* `echo = TRUE`
+```{r chunk-demo2, echo = TRUE}
+x <- 1:10
+x
+```
+
+* `results = "hide"`
+```{r chunk-demo3, results = "hide"}
+x <- 1:10
+x
+```
+
+* `results = "hold"`
+```{r chunk-demo4, results = "hold"}
+x <- 1:10
+x
+y <- 2:11
+y
+```
+
+
+* `include = TRUE` (change to FALSE)
+```{r chunk-demo5, include = TRUE}
+z <- 1:10
+```
+
+
+(@) Have a look at this page <https://yihui.org/knitr/options/#code-chunk> to get more information about different chunk options.
+
+
+(@) You can add code within an R Markdown paragraph. For example, the mean of `z` is `r mean(z)` (inspect within Rmd file).
+ 
+# dplyr
+
+(@) Load and inspect the `flights` dataset
+
+```{r}
+library(nycflights13)
+flights
+```
+
+(@) What does the variable "air_time" represent?
+
+```{r}
+# Write your answer here
+?flights
+#Amount of time spent in the air, in minutes
+```
+
+
+(@) Create a dataset called `march1` containing flights which departed on 1st March 2013.
+How many flights departed on 1st March 2013?
+
+```{r}
+# Write your answer here
+march1 = filter(flights,year==2013 & month==3 & day==1)
+nrow(march1)
+```
+
+
+(@) For the flights which departed on 1st March 2013, create a new variable called `max_delay` which contains the maximum of the departure delay and the arrival delay.  Arrange in descending order by the new variable so the first row contains the flight with the largest 
+departure or arrival delay. Which flight had the greatest delay and how long was the delay?
+
+Hint: You will need to use the command `rowwise()` (see PDF file)
+
+
+
+```{r}
+# Write your answer here
+flight_max_delay <- flights %>% 
+  filter(year==2013 & month==3 & day==1) %>%
+  rowwise() %>%
+  mutate(max_delay = max(dep_delay,arr_delay,na.rm = TRUE)) %>%
+  arrange(-max_delay) %>%
+  select(max_delay,everything())
+  
+head(flight_max_delay, 1)
+```
+
+
+(@) For the flights which departed on 1st March 2013, what was the destination of the one with the biggest departure delay?
+
+```{r}
+# Write your answer here
+
+flight_max_delay <- flights %>% 
+  filter(year == 2013 & month == 3 & day == 1) %>%
+  filter(dep_delay == max(dep_delay, na.rm = TRUE))
+
+flight_max_delay$dest
+
+#row_number(flight_max_delay) #flight_max_delay$dest
+```
+
+
+
+(@) Which destination has the greatest mean departure delay in 2013? Hint: use `group_by` and `summarise`
+
+```{r}
+# Write your answer here
+flights %>%
+  filter(year==2013) %>% 
+  group_by(dest) %>% 
+  summarise(mean_col = mean(dep_delay,na.rm=TRUE)) %>%
+  arrange(-mean_col) %>%
+  select(dest,mean_col)  # or head(1)
+
+
+```
+
+
+(@) Use summarise to determine the number of flights by each carrier.
+
+Hint: `summarise(n=n())`
+```{r}
+# Write your answer here
+
+flights %>%
+  group_by(carrier)%>%
+  summarise(n_flights=n()) %>%
+  arrange(-n_flights)
+
+```
+
+
+(@) For flights which departed on 1st March, create a boxplot showing the departure delay, with one box for each "carrier". Which airline seems to have the worst on-time performance?
+
+```{r}
+# Write your answer here
+df1 = flights %>%
+  filter(day==1 & month==3 ) %>%
+  select(dep_delay,carrier)
+
+ggplot(data = df1)+
+  geom_boxplot(mapping = aes(x=carrier,y=dep_delay))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  coord_flip()
+```
+
+
+
+# tibble
+
+
+(@) Consider the iris data set.
+
+  - Run the following code and inspect the difference in output.
+```{r inspect_iris, results="hide"}
+iris
+(iris_tb <- as_tibble(iris))
+```
+
+ 
+
+  - Using `iris_tb`, create a ggplot to compare `Sepal.Width` and `Sepal.Length`, with a different colour for each `Species`. Write 2 - 3 sentences describing your plot.
+
+```{r}
+# Write your answer here
+ggplot(data = iris_tb) +
+  geom_point(mapping = aes(x=Sepal.Width,y= Sepal.Length,color=Species))+
+  labs(title="comparison of Comparison of Sepal Width and Sepal Length by Species", x="Sepal.Width",y="Sepal.Length",color="diff Species")
+
+```
+
+
+
+```{r}
+# Write your answer here
+```
+
+
+(@) Create the following tibble.
+
+```{r create_annoying}
+set.seed(123414)
+annoying <- tibble(
+  `1` = 1:10,
+  `2` = `1` * 2 + rnorm(length(`1`))
+)
+```
+
+Practice referring to non-syntactic names in the following data frame by:
+
+  - Extracting the variable called 1. The desired output is shown below.
+
+```{r}
+# Write your answer here
+annoying$`1`
+annoying$`2`
+
+```
+
+  
+  - Plotting a scatterplot of 1 vs 2.
+```{r}
+# Write your answer here
+ggplot(annoying, aes(x=`1`,y=`2`)) +
+  geom_point()+
+  labs(title = "1 VS 2", x="var 1" ,y="var 2")
+
+
+```
+
+
+  - Creating a new column called 3 which is 2 divided by 1. The desired output is shown below.
+
+```{r}
+# Write your answer here
+annoying = annoying %>%
+  mutate(`3`=`2`/`1`)
+
+annoying
+```
+
+
+  - Renaming the columns to one, two and three. The desired output is shown below.
+  
+```{r}
+# Write your answer here
+annoying2 <- annoying %>%
+  mutate(one=`1`,two=`2`,three=`3`)%>%
+  select(one,two, three)
+
+annoying3 <- annoying %>%
+  rename(one=`1`,two=`2`,three=`3`)
+
+annoying3
+```
+
+
+
+# Application
+
+Pick one of the following datasets:
+
+* `ggplot2::mpg`
+* `nycflights13::flights`
+* `ggplot2::diamonds`
+
+(@) Look at the help page in R for your chosen dataset, e.g. `?flights`.
+```{r}
+# Write your answer here
+#?mpg
+mpg
+```
+
+(@) Write 3 questions about this dataset.
+
+e.g. How many flights were late on Christmas day?
+
+(@) Transform the data and/or create an summary statistics to investigate each of your questions.
+
+```{r}
+# 1. how many cars has more than 4 cyl in cty 18
+mpg %>%
+  filter(cyl>4 & cty==18) %>%
+  summarise(n_n = n())
+
+# 2. how many kinds of car and count.
+mpg %>%
+  group_by(manufacturer,model) %>%
+  summarise(model_count=n()) %>%
+  arrange(-model_count)
+
+#3 which cty's car has max mean of year?
+mpg %>%
+  mutate(age=2024-year) %>%
+  group_by(cty) %>%
+  summarise(mean_year = mean(age)) %>%
+  arrange(-mean_year) %>%
+  head(10)%>%
+  select(mean_year,cty)
+  
+
+
+```
+
+
+# Further practice
+
+(@)  Read R4DS chapters 5, 6, 10 and do the exercises.  
